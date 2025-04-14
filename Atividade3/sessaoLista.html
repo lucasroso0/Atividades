@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <title>Listagem de Sessões</title>
+</head>
+<body>
+    <ul class="nav justify-content-end bg-dark"> 
+        <li class="nav-item"> <a class="nav-link text-white" href="./home.html">Home</a> </li> 
+        <li class="nav-item"> <a class="nav-link text-white" href="./filmes.html">Cadastro de Filmes</a> </li> 
+        <li class="nav-item"> <a class="nav-link text-white" href="./salas.html">Cadastro de Salas</a> </li> 
+        <li class="nav-item"> <a class="nav-link text-white" href="./sessoes.html">Cadastro de Sessões</a> </li> 
+        <li class="nav-item"> <a class="nav-link text-white" href="./ingressos.html">Venda de Ingressos</a> </li> 
+        <li class="nav-item"> <a class="nav-link text-white" href="./sessaoLista.html">Listagem de Sessões</a> </li> 
+        <!--<li class="nav-item"> <a class="nav-link disabled" href="./login.html">Login</a> </li> -->
+    </ul>
+    <br>
+    <div class="container">
+        <h2>Listagem de Sessões Disponíveis</h2>
+        <div id="listaSessoes" class="row">
+            <!-- As sessões serão carregadas dinamicamente aqui -->
+        </div>
+    </div>
+
+    <script>
+        // Carrega as sessões do localStorage e exibe na página
+        function carregarSessoes() {
+            const sessoes = JSON.parse(localStorage.getItem('sessoes')) || [];
+            const listaSessoes = document.getElementById('listaSessoes');
+
+            sessoes.forEach((sessao, index) => {
+                const card = document.createElement('div');
+                card.className = 'col-12 col-md-6 col-lg-4 mb-3';
+
+                card.innerHTML = `
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">${sessao.filme}</h5>
+                            <p class="card-text">
+                                <strong>Sala:</strong> ${sessao.sala}<br>
+                                <strong>Data e Hora:</strong> ${sessao.dataHora}<br>
+                                <strong>Preço:</strong> R$ ${sessao.preco}
+                            </p>
+                            <a href="./ingressos.html?sessao=${encodeURIComponent(index)}" class="btn btn-primary">Comprar Ingresso</a>
+                        </div>
+                    </div>
+                `;
+
+                listaSessoes.appendChild(card);
+            });
+        }
+
+        // Chama a função para carregar as sessões ao carregar a página
+        document.addEventListener('DOMContentLoaded', carregarSessoes);
+    </script>
+    <script src="./js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

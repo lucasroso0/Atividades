@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <title>Cadastro de Filmes</title>
+</head>
+<body>
+    <ul class="nav justify-content-end bg-dark"> 
+        <li class="nav-item"> <a class="nav-link text-white" href="./home.html">Home</a> </li> 
+        <li class="nav-item"> <a class="nav-link text-white" href="./filmes.html">Cadastro de Filmes</a> </li> 
+        <li class="nav-item"> <a class="nav-link text-white" href="./salas.html">Cadastro de Salas</a> </li> 
+        <li class="nav-item"> <a class="nav-link text-white" href="./sessoes.html">Cadastro de Sessões</a> </li> 
+        <li class="nav-item"> <a class="nav-link text-white" href="./ingressos.html">Venda de Ingressos</a> </li> 
+        <li class="nav-item"> <a class="nav-link text-white" href="./sessaoLista.html">Listagem de Sessões</a> </li> 
+        <!--<li class="nav-item"> <a class="nav-link disabled" href="./login.html">Login</a> </li> -->
+    </ul>
+    <br>
+    <div class="container">
+        <h2>Cadastro de Filmes</h2>
+        <form id="formCadastroFilme">
+            <div class="mb-3">
+                <label for="titulo" class="form-label">Título</label>
+                <input type="text" class="form-control" id="titulo" required>
+            </div>
+            <div class="mb-3">
+                <label for="descricao" class="form-label">Descrição</label>
+                <textarea class="form-control" id="descricao" rows="3" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="genero" class="form-label">Gênero</label>
+                <select class="form-select" id="genero" required>
+                    <option value="" disabled selected>Selecione um gênero</option>
+                    <option value="Ação">Ação</option>
+                    <option value="Comédia">Comédia</option>
+                    <option value="Drama">Drama</option>
+                    <option value="Ficção Científica">Ficção Científica</option>
+                    <option value="Terror">Terror</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="classificacao" class="form-label">Classificação Indicativa</label>
+                <select class="form-select" id="classificacao" required>
+                    <option value="" disabled selected>Selecione a classificação</option>
+                    <option value="Livre">Livre</option>
+                    <option value="10 anos">10 anos</option>
+                    <option value="12 anos">12 anos</option>
+                    <option value="14 anos">14 anos</option>
+                    <option value="16 anos">16 anos</option>
+                    <option value="18 anos">18 anos</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="duracao" class="form-label">Duração (em minutos)</label>
+                <input type="number" class="form-control" id="duracao" required>
+            </div>
+            <div class="mb-3">
+                <label for="dataEstreia" class="form-label">Data de Estreia</label>
+                <input type="date" class="form-control" id="dataEstreia" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Salvar Filme</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('formCadastroFilme').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Captura os valores dos campos
+            const titulo = document.getElementById('titulo').value;
+            const descricao = document.getElementById('descricao').value;
+            const genero = document.getElementById('genero').value;
+            const classificacao = document.getElementById('classificacao').value;
+            const duracao = document.getElementById('duracao').value;
+            const dataEstreia = document.getElementById('dataEstreia').value;
+
+            // Cria um objeto para o filme
+            const filme = {
+                titulo,
+                descricao,
+                genero,
+                classificacao,
+                duracao,
+                dataEstreia
+            };
+
+            // Recupera os filmes do localStorage ou inicializa um array vazio
+            const filmes = JSON.parse(localStorage.getItem('filmes')) || [];
+
+            // Adiciona o novo filme ao array
+            filmes.push(filme);
+
+            // Salva o array atualizado no localStorage
+            localStorage.setItem('filmes', JSON.stringify(filmes));
+
+            // Limpa o formulário
+            this.reset();
+
+            // Exibe uma mensagem de sucesso
+            alert('Filme salvo com sucesso!');
+        });
+    </script>
+    <script src="./js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

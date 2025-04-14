@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <title>Venda de Ingressos</title>
+</head>
+<body>
+    <ul class="nav justify-content-end bg-dark"> 
+        <li class="nav-item"> <a class="nav-link text-white" href="./home.html">Home</a> </li> 
+        <li class="nav-item"> <a class="nav-link text-white" href="./filmes.html">Cadastro de Filmes</a> </li> 
+        <li class="nav-item"> <a class="nav-link text-white" href="./salas.html">Cadastro de Salas</a> </li> 
+        <li class="nav-item"> <a class="nav-link text-white" href="./sessoes.html">Cadastro de Sessões</a> </li> 
+        <li class="nav-item"> <a class="nav-link text-white" href="./ingressos.html">Venda de Ingressos</a> </li> 
+        <li class="nav-item"> <a class="nav-link text-white" href="./sessaoLista.html">Listagem de Sessões</a> </li> 
+    </ul>
+    <br>
+    <div class="container">
+        <h2>Venda de Ingressos</h2>
+        <form id="formVendaIngresso">
+            <div class="mb-3">
+                <label for="sessao" class="form-label">Sessão</label>
+                <select class="form-select" id="sessao" required>
+                    <option value="" disabled selected>Selecione uma sessão</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="nomeCliente" class="form-label">Nome do Cliente</label>
+                <input type="text" class="form-control" id="nomeCliente" required>
+            </div>
+            <div class="mb-3">
+                <label for="cpf" class="form-label">CPF</label>
+                <input type="text" class="form-control" id="cpf" required>
+            </div>
+            <div class="mb-3">
+                <label for="assento" class="form-label">Assento</label>
+                <input type="text" class="form-control" id="assento" required>
+            </div>
+            <div class="mb-3">
+                <label for="tipoPagamento" class="form-label">Tipo de Pagamento</label>
+                <select class="form-select" id="tipoPagamento" required>
+                    <option value="" disabled selected>Selecione o tipo de pagamento</option>
+                    <option value="Cartão">Cartão</option>
+                    <option value="Pix">Pix</option>
+                    <option value="Dinheiro">Dinheiro</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Confirmar Venda</button>
+        </form>
+    </div>
+
+    <script>
+        // Carrega as sessões do localStorage para o select
+        function carregarSessoes() {
+            const sessoes = JSON.parse(localStorage.getItem('sessoes')) || [];
+            const sessaoSelect = document.getElementById('sessao');
+
+            sessoes.forEach(sessao => {
+                const option = document.createElement('option');
+                option.value = `${sessao.filme} - ${sessao.sala} - ${sessao.dataHora}`;
+                option.textContent = `${sessao.filme} - ${sessao.sala} - ${sessao.dataHora}`;
+                sessaoSelect.appendChild(option);
+            });
+        }
+
+        // Salva o ingresso no localStorage
+        document.getElementById('formVendaIngresso').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Captura os valores dos campos
+            const sessao = document.getElementById('sessao').value;
+            const nomeCliente = document.getElementById('nomeCliente').value;
+            const cpf = document.getElementById('cpf').value;
+            const assento = document.getElementById('assento').value;
+            const tipoPagamento = document.getElementById('tipoPagamento').value;
+
+            // Cria um objeto para o ingresso
+            const ingresso = {
+                sessao,
+                nomeCliente,
+                cpf,
+                assento,
+                tipoPagamento
+            };
+
+            // Recupera os ingressos do localStorage ou inicializa um array vazio
+            const ingressos = JSON.parse(localStorage.getItem('ingressos')) || [];
+
+            // Adiciona o novo ingresso ao array
+            ingressos.push(ingresso);
+
+            // Salva o array atualizado no localStorage
+            localStorage.setItem('ingressos', JSON.stringify(ingressos));
+
+            // Limpa o formulário
+            this.reset();
+
+            // Exibe uma mensagem de sucesso
+            alert('Venda confirmada com sucesso!');
+        });
+
+        // Chama a função para carregar as sessões ao carregar a página
+        document.addEventListener('DOMContentLoaded', carregarSessoes);
+    </script>
+    <script src="./js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
